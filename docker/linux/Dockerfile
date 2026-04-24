@@ -6,8 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Update and upgrade the system
 RUN apt update -y && apt upgrade -y
 
-# Add a user named docker and ensure docker group has fixed GID
-RUN groupadd -g 998 docker && useradd -m -g docker docker
+useradd docker
 
 # Install necessary packages
 RUN apt install -y --no-install-recommends \

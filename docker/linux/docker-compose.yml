@@ -1,21 +1,21 @@
-version: '3.8'
-
 services:
   runner:
     build: .
     image: youssefbrr/github-actions:latest # You can use this image or build your own
+    group_add:
+      - "988"
     restart: always
-    environment:
-      - REPO=<owner>/<repo>
-      - REG_TOKEN=<reg-token-for-self-hosted-runner>
-      - NAME=<runner-name>
+    env_file:
+      - .env
     deploy:
       mode: replicated
       replicas: 2
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          cpus: '2'
+          memory: 2G
         reservations:
-          cpus: '0.4'
-          memory: 256M
+          cpus: '1'
+          memory: 1G
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
