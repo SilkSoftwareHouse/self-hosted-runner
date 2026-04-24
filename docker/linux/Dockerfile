@@ -6,12 +6,13 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Update and upgrade the system
 RUN apt update -y && apt upgrade -y
 
-# Add a user named docker
-RUN useradd -m docker
+# Add a user named docker and ensure docker group has fixed GID
+RUN groupadd -g 998 docker && useradd -m -g docker docker
 
 # Install necessary packages
 RUN apt install -y --no-install-recommends \
-    curl build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip jq
+    curl build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip jq \
+    docker.io containerd runc iptables
 RUN apt-get -yqq install ssh
 # Set up the actions runner
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
